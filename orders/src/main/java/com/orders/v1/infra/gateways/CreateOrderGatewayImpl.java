@@ -2,6 +2,8 @@ package com.orders.v1.infra.gateways;
 
 import com.orders.v1.application.gateways.CreateOrderGateway;
 import com.orders.v1.domain.Order;
+import com.orders.v1.infra.client.UserClient;
+import com.orders.v1.infra.exceptions.BusinessException;
 import com.orders.v1.infra.persistence.OrderEntity;
 import com.orders.v1.infra.persistence.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +19,17 @@ import java.time.LocalDateTime;
 public class CreateOrderGatewayImpl implements CreateOrderGateway {
 
     private final OrderRepository repository;
+    private final UserClient client;
 
     @Transactional
     @Override
     public Order create(Order order) {
+
+        var responseEntity = client.existsById(order.getId());
+
+        var existsById = responseEntity.getBody();
+
+        if(Boolean.FALSE.equals(existsById)) throw new BusinessException("User not found with that id: + " + order.getId());
 
         log.info("::: Saving an order to the database. payload: {} ", order.toString());
 
