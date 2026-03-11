@@ -1,5 +1,6 @@
 package com.users.v1.adapters.out.builder;
 
+import com.users.v1.adapters.in.request.UserRequest;
 import com.users.v1.adapters.out.entity.UserEntity;
 import com.users.v1.application.domain.User;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,17 @@ public class UserBuilder {
                 .createdAt(user.getCreatedAt())
                 .name(user.getName())
                 .email(user.getEmail())
+                .build();
+    }
+
+    public User requestToDomain(UserRequest request) {
+        return User
+                .builder()
+                .id(null)
+                .cpf(request.cpf())
+                .email(request.email())
+                .createdAt(null)
+                .name(request.name())
                 .build();
     }
 }
