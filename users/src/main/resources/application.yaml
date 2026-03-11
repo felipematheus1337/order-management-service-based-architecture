@@ -1,3 +1,30 @@
 spring:
   application:
-    name: v1
+    name: users-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orders
+    username: admin
+    password: admin123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: users
+        format_sql: true
+    show-sql: true
+
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/orders
+    user: admin
+    password: admin123
+    default-schema: users
+    schemas: users
+    locations: classpath:db/migration
+
+server:
+  port: 8081
