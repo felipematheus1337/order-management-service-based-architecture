@@ -8,6 +8,7 @@ import com.users.v1.application.ports.out.CreateUserOutputPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class CreateUserAdapter implements CreateUserOutputPort {
     private final UserEntityRepository repository;
     private final UserBuilder builder;
 
+    @Transactional
     @Override
     public void create(User user) {
         log.info("::: Creating an user with payload: {}", user.toString());

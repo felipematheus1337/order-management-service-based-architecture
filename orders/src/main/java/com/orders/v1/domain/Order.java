@@ -3,7 +3,7 @@ package com.orders.v1.domain;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Orders {
+public class Order {
 
     private Long id;
 
@@ -13,10 +13,10 @@ public class Orders {
 
     private LocalDateTime orderedAt;
 
-    public Orders() {
+    public Order() {
     }
 
-    public Orders(Long id, BigDecimal total, Long userId, LocalDateTime orderedAt) {
+    public Order(Long id, BigDecimal total, Long userId, LocalDateTime orderedAt) {
         this.id = id;
         this.total = total;
         this.userId = userId;
@@ -53,5 +53,22 @@ public class Orders {
 
     public void setOrderedAt(LocalDateTime orderedAt) {
         this.orderedAt = orderedAt;
+    }
+
+    public boolean validate() {
+        if (total.compareTo(BigDecimal.ZERO) < 0) return false;
+        if (userId == null) return false;
+
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                {
+                "userId" : %s,
+                "total": %f
+                }
+                """, userId, total);
     }
 }
