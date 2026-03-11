@@ -1,3 +1,24 @@
 spring:
   application:
-    name: api
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+
+        - id: users
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - RewritePath=/api/v1/users(?<segment>/?.*), /bff/users${segment}
+
+        - id: orders
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/orders/**
+          filters:
+            - RewritePath=/api/v1/orders(?<segment>/?.*), /bff/orders${segment}
+
+server:
+  port: 8080
