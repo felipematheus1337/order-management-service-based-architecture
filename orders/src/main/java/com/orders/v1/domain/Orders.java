@@ -1,6 +1,5 @@
 package com.orders.v1.domain;
 
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
