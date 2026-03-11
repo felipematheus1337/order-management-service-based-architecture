@@ -1,6 +1,7 @@
 package com.users.v1.adapters.out.builder;
 
 import com.users.v1.adapters.in.request.UserRequest;
+import com.users.v1.adapters.in.response.UserResponse;
 import com.users.v1.adapters.out.entity.UserEntity;
 import com.users.v1.application.domain.User;
 import org.springframework.stereotype.Component;
@@ -38,6 +39,16 @@ public class UserBuilder {
                 .email(request.email())
                 .createdAt(null)
                 .name(request.name())
+                .build();
+    }
+
+    public UserResponse toResponse(User user) {
+        return UserResponse
+                .builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .createdAt(user.getCreatedAt())
                 .build();
     }
 }

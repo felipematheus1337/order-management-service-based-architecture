@@ -1,16 +1,15 @@
 package com.users.v1.adapters.in;
 
 import com.users.v1.adapters.in.request.UserRequest;
+import com.users.v1.adapters.in.response.UserResponse;
 import com.users.v1.adapters.out.builder.UserBuilder;
 import com.users.v1.application.domain.User;
 import com.users.v1.application.ports.in.CreateUserInputPort;
+import com.users.v1.application.ports.in.GetUserByIdInputPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/users")
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final CreateUserInputPort createUserInputPort;
+    private final GetUserByIdInputPort getUserByIdInputPort;
     private final UserBuilder builder;
 
     @PostMapping
@@ -28,5 +28,11 @@ public class UserController {
         createUserInputPort.create(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> get(@PathVariable Long id) {
+        UserResponse response = builder.toResponse(getUserByIdInputPort.get(id));
+        return ResponseEntity.ok(response);
     }
 }
